@@ -30,4 +30,20 @@ public class RequestController {
         List<Books> books=bookService.getAll();
         return ResponseEntity.ok(books);
     }
+
+    @PutMapping("/books/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id,@RequestBody Books books){
+        if(bookService.updateBook(id,books)!=null){
+            return ResponseEntity.ok("Successfully updated for Id "+id+" and changed");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book Id "+id+" not found");
+    }
+
+    @DeleteMapping("/books/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        if(bookService.deleteBooks(id)){
+            return ResponseEntity.ok("Book ID "+id+" successfully deleted");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book Id "+id+" not found");
+    }
 }
